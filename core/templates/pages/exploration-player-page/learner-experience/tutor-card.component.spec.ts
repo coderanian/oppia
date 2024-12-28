@@ -939,4 +939,38 @@ describe('Tutor card component', () => {
       'input-response-pair-1'
     );
   });
+
+  it('should tell if window is narrow', () => {
+    spyOn(mockDisplayedCard, 'isWindowNarrow').and.returnValue(true);
+    expect(componentInstance.isWindowNarrow()).toBeTrue();
+  });
+
+  it('should set a random static image url without repetition', () => {
+    spyOn(urlInterpolationService, 'getStaticCopyrightedImageUrl').and.callFake(
+      (path: string) => {
+        if (path.includes('1')) {
+          return '/assets/copyrighted-images/avatar/oppia_avatar_100px_1.svg';
+        }
+        if (path.includes('2')) {
+          return '/assets/copyrighted-images/avatar/oppia_avatar_100px_2.svg';
+        }
+        if (path.includes('3')) {
+          return '/assets/copyrighted-images/avatar/oppia_avatar_100px_3.svg';
+        }
+        if (path.includes('4')) {
+          return '/assets/copyrighted-images/avatar/oppia_avatar_100px_4.svg';
+        }
+        if (path.includes('5')) {
+          return '/assets/copyrighted-images/avatar/oppia_avatar_100px_5.svg';
+        }
+        return '/assets/copyrighted-images/avatar/oppia_avatar_100px_6.svg';
+      }
+    );
+    componentInstance.OPPIA_AVATAR_IMAGE_URL =
+      '/assets/copyrighted-images/avatar/oppia_avatar_100px_1.svg';
+    componentInstance.setRandomAvatarImage();
+    expect(componentInstance.OPPIA_AVATAR_IMAGE_URL).not.toBe(
+      '/assets/copyrighted-images/avatar/oppia_avatar_100px_1.svg'
+    );
+  });
 });
